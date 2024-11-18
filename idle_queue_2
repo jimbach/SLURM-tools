@@ -1,0 +1,17 @@
+#!/bin/bash
+if [[ $# -ne 0 ]]
+then
+if [ $1 == "-prio" ]
+then
+  for p in $( sinfo -s | sort -k 1 |awk '{print $1}' | tail -n +2 | cat ) ; do printf "highest priority still pending in "${p}":   "; squeue -p "${p}" -o " %p" | sort -h | tail -n 1 ; done
+  echo '--------------------'
+fi
+fi
+# print pending jobs
+for p in $( sinfo -s | sort -k 1 |awk '{print $1}' | tail -n +2 | cat ) ; do printf "Nr. of JOBS pending in "${p}" queue:   "; squeue -p "${p}" | grep " PD " | wc -l ; done
+# print priority
+echo '--------------------'
+echo 'idle nodes:   '
+sinfo | grep idle
+echo '--------------------'
+
